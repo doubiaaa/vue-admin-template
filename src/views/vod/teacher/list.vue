@@ -34,6 +34,15 @@
         <el-button type="default" @click="resetData()">清空</el-button>
       </el-form>
     </el-card>
+
+    <!-- 工具按钮 -->
+    <el-card class="operate-container" shadow="never">
+      <i class="el-icon-tickets" style="margin-top: 5px"></i>
+      <span style="margin-top: 5px">数据列表</span>
+      <el-button class="btn-add" @click="add()" style="margin-left: 10px;">添加</el-button>
+      <el-button class="btn-add" @click="batchRemove()">批量删除</el-button>
+    </el-card>
+
     <!-- 表格 -->
     <el-table
       :data="list"
@@ -92,15 +101,54 @@ export default {
       list: [], // 讲师列表
       total: 0, // 总记录数
       page: 1, // 当前页码
-      limit: 10, // 每页记录数
-      searchObj: {} // 查询条件
-      // multipleSelection: []// 批量删除选中的记录列表
+      limit: 5, // 每页记录数
+      searchObj: {}, // 查询条件
+      multipleSelection: []// 批量删除选中的记录列表
     }
   },
   created() {
     this.fetchDate()
   },
   methods: {
+    batchRemove() {
+      if (this.multipleSelection.length === 0) {
+        this.$message.warning('请选择要删除的记录！')
+        return
+      } else {
+        this.$confirm('此操作将删除该讲师信息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          var idList = []
+          for (var i = 0; i < this.multipleSelection.length; i++) {
+            var obj = this.multipleSelection[i]
+            var id = obj.id
+            idList.push(id)
+          }
+          teacherApi.batchRemove(idList).then(res => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            this.fetchDate()
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+      }
+    },
+    handleSelectionChange(selection) {
+      this.multipleSelection = selection
+    },
+    // 跳转到添加表单页面
+    add() {
+      // 跳转添加页面
+      this.$router.push({ path: '/vod/teacher/create' })
+    },
     fetchDate() {
       teacherApi.pageList(this.page, this.limit, this.searchObj).then(response => {
         this.list = response.data.records
@@ -120,6 +168,27 @@ export default {
     resetData() {
       this.searchObj = {}
       this.fetchDate()
+    },
+    // 根据id删除
+    removeById(id) {
+      this.$confirm('此操作将删除该讲师信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        teacherApi.removeTeacherId(id).then(res => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.fetchDate()
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     }
   }
 }

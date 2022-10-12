@@ -12,11 +12,40 @@ export default {
     })
   },
   // 删除讲师
-  removeTeacherId(current, limit, searchObj) {
+  removeTeacherId(id) {
     return request({
-      url: `${api_name}/findQueryPage/${current}/${limit}`,
+      url: `${api_name}/remove/${id}`,
+      method: 'delete'
+    })
+  },
+  // 添加讲师
+  saveTeacher(teacher) {
+    return request({
+      url: `${api_name}/saveTeacher`,
       method: 'post',
-      data: searchObj
+      data: teacher
+    })
+  },
+  // 删除讲师
+  getTeacherById(id) {
+    return request({
+      url: `${api_name}/getTeacher/${id}`,
+      method: 'get'
+    })
+  },
+  // 修改讲师
+  updateTeacher(teacher) {
+    return request({
+      url: `${api_name}/updateTeacher`,
+      method: 'post',
+      data: teacher
+    })
+  },
+  batchRemove(idList) {
+    return request({
+      url: `${api_name}/removeBarch`,
+      method: `delete`,
+      data: idList
     })
   }
 }
