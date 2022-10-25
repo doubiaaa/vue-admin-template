@@ -1,5 +1,10 @@
 <template>
   <div class="app-container">
+    <div class="el-toolbar" style="text-align: right;">
+      <div class="el-toolbar-body" style="justify-content: flex-start;">
+        <el-button type="text" @click="exportData"><i class="fa fa-plus"/> 导出</el-button>
+      </div>
+    </div>
     <el-table
       :data="list"
       style="width: 100%"
@@ -21,6 +26,7 @@
       >
       </el-table-column>
     </el-table>
+
   </div>
 </template>
 
@@ -43,6 +49,10 @@ export default {
         .then(response => {
           this.list = response.data
         })
+    },
+    exportData() {
+      //  数据导出
+      window.open('http://localhost:8301/admin/vod/subject/exportData')
     },
     load(tree, treeNode, resolve) {
       subjectApi.getChildList(tree.id).then(response => {
