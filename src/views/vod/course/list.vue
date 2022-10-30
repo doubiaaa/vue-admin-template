@@ -58,7 +58,7 @@
     <!-- 工具按钮 -->
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets" style="margin-top: 5px"></i>
-      <span style="margin-top: 5px">数据列表</span>
+      <span style="margin-top: 5px">数据列表&nbsp;</span>
       <el-button class="btn-add" @click="add()">添加</el-button>
     </el-card>
 
@@ -212,7 +212,7 @@ export default {
     },
 
     add() {
-      this.$router.push({ path: '/vod/course/info' })
+      this.$router.push({ path: '/Vodcourse/course/info' })
     },
 
     // 每页记录数改变，size：回调参数，表示当前选中的“每页条数”
