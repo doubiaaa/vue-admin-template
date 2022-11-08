@@ -82,6 +82,22 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/orderInfo/list',
+    name: 'Order',
+    meta: { title: '订单管理', icon: 'el-icon-truck' },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'orderInfo/list',
+        name: 'OrderInfo',
+        component: () => import('@/views/order/list'),
+        meta: { title: '订单列表' }
+      }
+    ]
+  },
+  {
     path: '/subject',
     component: Layout,
     redirect: '/subject/list',
@@ -94,6 +110,43 @@ export const constantRoutes = [
         name: '课程分类列表',
         component: () => import('@/views/vod/subject/list'),
         meta: { title: '课程分类列表', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/activity',
+    component: Layout,
+    redirect: '/couponInfo/list',
+    name: 'Activity',
+    meta: { title: '营销管理', icon: 'el-icon-football' },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'couponInfo/list',
+        name: 'CouponInfo',
+        component: () => import('@/views/activity/couponInfo/list'),
+        meta: { title: '优惠券列表' }
+      },
+      {
+        path: 'couponInfo/add',
+        name: 'CouponInfoAdd',
+        component: () => import('@/views/activity/couponInfo/form'),
+        meta: { title: '添加' },
+        hidden: true
+      },
+      {
+        path: 'couponInfo/edit/:id',
+        name: 'CouponInfoEdit',
+        component: () => import('@/views/activity/couponInfo/form'),
+        meta: { title: '编辑', noCache: true },
+        hidden: true
+      },
+      {
+        path: 'couponInfo/show/:id',
+        name: 'CouponInfoShow',
+        component: () => import('@/views/activity/couponInfo/show'),
+        meta: { title: '详情', noCache: true },
+        hidden: true
       }
     ]
   },
